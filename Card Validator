@@ -1,0 +1,77 @@
+#include<iostream>
+#include<string>
+#include<cstdlib>
+#include<vector>
+#include<iomanip>
+using namespace std;
+
+//PARAMETER
+bool isvalidcc(const string&);
+
+//MAIN
+int main()
+{
+vector<string> cardnumbers = {
+
+"371449635398431", "4444444444444448", "4444424444444440", "4110144110144115",
+
+"4114360123456785", "4061724061724061", "5500005555555559", "5115915115915118",
+
+"5555555555555557", "6011016011016011", "372449635398431", "4444544444444448",
+
+"4444434444444440", "4110145110144115", "4124360123456785", "4062724061724061",
+
+"5501005555555559", "5125915115915118", "5556555555555557", "6011116011016011",
+
+"372449635397431", "4444544444444448", "4444434444544440", "4110145110184115",
+
+"4124360123457785", "4062724061724061", "5541005555555559", "5125115115915118",
+
+"5556551555555557", "6011316011016011"
+
+};
+
+int i;
+vector<string>::iterator itr;
+
+for (i = 1, itr = cardnumbers.begin(); itr != cardnumbers.end(); ++itr, i++) {
+
+cout << setw(2) << i << " " << setw(17) << *itr << ((isvalidcc(*itr)) ? " is valid" : " is not valid") << endl;
+}
+return 0;
+}//MAIN
+
+//Method
+bool isvalidcc(const string &cardNumber)
+{
+   int lngth = cardNumber.length();
+   int secondDigit= 0;
+   int oddDigit = 0;
+   int total = 0;
+   if(lngth < 13 || lngth > 16)
+       return false;
+   if(cardNumber[0] == '4' || cardNumber[0] == '5' || cardNumber[0] == '6'||cardNumber.substr(0, 2) == "37"){
+       for(int i = lngth - 2; i >= 0; i = i - 2){
+           int digit = 2*atoi(cardNumber.substr(i, 1).c_str());
+           if(digit > 9){
+               int rem = digit % 10;
+               digit = digit / 10;
+               digit +=rem;
+           }//if
+           secondDigit += digit;
+       }//for
+
+       for(int i = lngth - 1; i >= 0; i = i - 2){
+           oddDigit += atoi(cardNumber.substr(i, 1).c_str());
+       }//for
+
+       total = secondDigit + oddDigit;
+       if(total % 10 == 0)
+           return true;
+       else
+           return false;
+       }//if
+   else
+   return false;
+   system("pause");
+}//isvalidcc
